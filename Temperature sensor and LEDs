@@ -1,0 +1,61 @@
+// C++ code
+//
+
+int led_blue = 13; // the blue LED connected to Pin 13 of the Arduino
+int led_orange = 12; // the orange LED connected to Pin 12 of the Arduino
+int led_green = 11; // the green LED connected to Pin 11 of the Arduino
+
+int sensorPin = 0; // the temperature sensor connected to A0 of the Arduino
+         
+void setup()
+{
+  pinMode(led_blue, OUTPUT); // setting outputs for the 3 LEDs
+  pinMode(led_orange, OUTPUT);
+  pinMode(led_green, OUTPUT);
+  
+  pinMode(sensorPin, INPUT); // Takes input from the Temperature sensor
+  Serial.begin(9600);  //Starts the connection with the computer. The temperature measurements are seen on the "Serial Monitor"
+}
+
+void loop()
+{
+  //digitalWrite(led_blue, HIGH); // To turn on the blue LED //If I quit the comments, the LEDs will turn on and off alternatively
+  delay(1000); // Wait for 2 millisecond(s)
+  //digitalWrite(led_blue, LOW); // To turn off the blue LED
+  delay(1000); // Wait for 2 millisecond(s)
+  
+  //digitalWrite(led_orange, HIGH);
+  delay(1000); // Wait for 2 millisecond(s)
+  //digitalWrite(led_orange, LOW);
+  delay(1000); // Wait for 2 millisecond(s)
+  
+  //digitalWrite(led_green, HIGH);
+  delay(1000); // Wait for 2 millisecond(s)
+  //digitalWrite(led_green, LOW);
+  delay(1000); // Wait for 2 millisecond(s)
+  
+  int reading = analogRead(sensorPin); // Reading the voltage from the temperature sensor 
+  float voltage = reading * 5.0; // converting to voltage 
+  voltage /= 1024.0; 
+     
+  float temperatureC = (voltage - 0.5) * 100 ;  //converting the temperature from volts
+  Serial.print(temperatureC); Serial.println(" degrees C"); // Printing the temperature in C
+      
+  delay(1000); //waiting 2 second(s)
+  
+  if(temperatureC < 15) { // I set conditions for the LEDs to turn on and of, depending on the temperature's values 
+    digitalWrite(led_blue, HIGH);
+    digitalWrite(led_orange, LOW);
+    digitalWrite(led_green, LOW);
+  }
+  else if(temperatureC > 45) {
+    digitalWrite(led_blue, LOW);
+    digitalWrite(led_orange, HIGH);
+    digitalWrite(led_green, LOW);
+  }
+  else {
+    digitalWrite(led_blue, LOW); // The green LED will turn on when the temperature is betweel 15 and 45 C
+    digitalWrite(led_orange, LOW);
+    digitalWrite(led_green, HIGH);
+  }
+}     
